@@ -1,4 +1,22 @@
-# Getting Started with Create React App
+# Groceries List (Romanian Interface)
+## A React Application
+
+An app that allows the user to insert, edit and delete items in a groceries list.
+
+
+Uses local storage to store the data in the browser.
+
+### How To Run:
+1. Download project files from GitHub.
+2. Run `npm install` in your terminal to download and install all the dependencies.
+3. Run `npm start` in your terminal
+
+### Used:  
+- React 
+- JavaScript
+- HTML
+- CSS
+- Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
