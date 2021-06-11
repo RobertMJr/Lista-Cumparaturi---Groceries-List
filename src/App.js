@@ -2,9 +2,18 @@ import React, { useState, useEffect } from 'react';
 import List from './List';
 import Alert from './Alert';
 
+const getLocalStorage = () => {
+	let list = localStorage.getItem('list');
+	if (list) {
+		return JSON.parse(localStorage.getItem('list'));
+	} else {
+		return [];
+	}
+};
+
 function App() {
 	const [ name, setName ] = useState('');
-	const [ list, setList ] = useState([]);
+	const [ list, setList ] = useState(getLocalStorage);
 	const [ isEditing, setIsEditing ] = useState(false);
 	const [ editID, setEditID ] = useState(null);
 	const [ alert, setAlert ] = useState({
@@ -17,10 +26,23 @@ function App() {
 		e.preventDefault();
 		if (!name) {
 			// display alert
+			showAlert(true, 'Introduceți un articol', 'danger');
 		} else if (name && isEditing) {
 			// handle edit
+			setList(
+				list.map((item) => {
+					if (item.id === editID) {
+						return { ...item, title: name };
+					}
+					return item;
+				})
+			);
+			setName('');
+			setEditID(null);
+			setIsEditing(false);
+			showAlert(true, 'Articol modificat', 'success');
 		} else {
-			showAlert(true, 'success', 'Item added to the list');
+			showAlert(true, 'Articol adăugat', 'success');
 			const newItem = {
 				id: new Date().getTime().toString(),
 				title: name
@@ -31,13 +53,32 @@ function App() {
 	};
 
 	const showAlert = (show = false, msg = '', type = '') => {
-		setAlert(show, msg, type);
+		setAlert({ show, msg, type });
 	};
 
 	const clearList = () => {
-		showAlert(true, 'Empty List', 'danger');
+		showAlert(true, 'Lista a fost golită', 'danger');
 		setList([]);
 	};
+
+	const removeItem = (id) => {
+		showAlert(true, 'Articolul a fost șters', 'danger');
+		setList(list.filter((item) => item.id !== id));
+	};
+
+	const editItem = (id) => {
+		const specificItem = list.find((item) => item.id === id);
+		setIsEditing(true);
+		setEditID(id);
+		setName(specificItem.title);
+	};
+
+	useEffect(
+		() => {
+			localStorage.setItem('list', JSON.stringify(list));
+		},
+		[ list ]
+	);
 
 	return (
 		<section className='section-center'>
@@ -63,7 +104,11 @@ function App() {
 			</form>
 			{list.length > 0 && (
 				<div className='grocery-container'>
-					<List items={list} />
+					<List
+						items={list}
+						editItem={editItem}
+						removeItem={removeItem}
+					/>
 					<button className='clear-btn' onClick={clearList}>
 						șterge listă
 					</button>

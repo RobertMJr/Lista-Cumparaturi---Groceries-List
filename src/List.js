@@ -3,7 +3,7 @@ import React from 'react';
 import { FaEdit } from 'react-icons/fa';
 import { GoTrashcan } from 'react-icons/go';
 
-const List = ({ items }) => {
+const List = ({ items, editItem, removeItem }) => {
 	return (
 		<div className='grocery-list'>
 			{items.map((item) => {
@@ -12,10 +12,18 @@ const List = ({ items }) => {
 					<article key={id} className='grocery-item'>
 						<p className='title'>{title}</p>
 						<div className='btn-container'>
-							<button type='button' className='edit-btn'>
+							<button
+								type='button'
+								className='edit-btn'
+								onClick={() => editItem(id)}
+							>
 								<FaEdit />
 							</button>
-							<button type='button' className='delete-btn'>
+							<button
+								type='button'
+								className='delete-btn'
+								onClick={() => removeItem(id)}
+							>
 								<GoTrashcan />
 							</button>
 						</div>
