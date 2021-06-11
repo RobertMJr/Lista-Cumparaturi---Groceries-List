@@ -1,4 +1,4 @@
-# Groceries List (Romanian Interface)
+# Groceries List (Romanian Interface) [![](https://img.shields.io/badge/Robert-Muraru-blue)](https://robert-muraru-portfolio.herokuapp.com/)
 ## A React Application
 
 An app that allows the user to insert, edit and delete items in a groceries list.
